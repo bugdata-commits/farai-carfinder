@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Farai CarFinder — Cars for sale in Zimbabwe</title>
+<meta name="description" content="Farai CarFinder — browse cars for sale in Harare, Bulawayo, Mutare and across Zimbabwe.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --charcoal:#1b1a17;
+    --charcoal-2:#242220;
+    --sand:#efe6d3;
+    --sand-dim:#c9bfa8;
+    --sienna:#b5502e;
+    --sienna-dim:#8c3d23;
+    --khaki:#7c8a63;
+    --plate-yellow:#e8b93a;
+    --line:#3a362f;
+    --radius:2px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--charcoal);
+    color:var(--sand);
+    font-family:'IBM Plex Sans', -apple-system, Segoe UI, sans-serif;
+    line-height:1.5;
+  }
+  h1,h2,h3,.headline{
+    font-family:'Space Grotesk', 'IBM Plex Sans', sans-serif;
+    font-weight:700;
+    margin:0;
+    letter-spacing:-0.01em;
+  }
+  a{color:inherit;text-decoration:none;}
+  img{max-width:100%;display:block;}
+  .wrap{max-width:1160px;margin:0 auto;padding:0 24px;}
+
+  /* focus visibility */
+  a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible{
+    outline:2px solid var(--plate-yellow);
+    outline-offset:2px;
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    *{animation-duration:0.001ms !important; transition-duration:0.001ms !important;}
+  }
+
+  /* ---------- header ---------- */
+  header{
+    border-bottom:1px solid var(--line);
+    position:sticky;top:0;
+    background:rgba(27,26,23,0.92);
+    backdrop-filter:blur(6px);
+    z-index:50;
+  }
+  .nav{
+    display:flex;align-items:center;justify-content:space-between;
+    padding:18px 0;
+  }
+  .logo{
+    display:flex;align-items:baseline;gap:8px;
+    font-size:20px;
+  }
+  .logo .mark{
+    color:var(--sienna);
+  }
+  .logo .sub{
+    font-family:'IBM Plex Sans',sans-serif;
+    font-weight:400;
+    font-size:12px;
+    color:var(--sand-dim);
+  }
+  nav.links{display:flex;gap:28px;font-size:15px;}
+  nav.links a{color:var(--sand-dim);transition:color .15s;}
+  nav.links a:hover{color:var(--sand);}
+  .navbtn{
+    background:var(--sienna);color:var(--sand);
+    padding:9px 18px;border-radius:var(--radius);
+    font-size:14px;font-weight:600;
+    border:1px solid var(--sienna);
+  }
+  .navbtn:hover{background:var(--sienna-dim);}
+  .menu-toggle{display:none;background:none;border:1px solid var(--line);color:var(--sand);padding:8px 12px;border-radius:var(--radius);font-size:14px;}
+
+  /* ---------- hero ---------- */
+  .hero{
+    padding:72px 0 56px;
+    border-bottom:1px solid var(--line);
+    background:
+      radial-gradient(ellipse 700px 320px at 85% -10%, rgba(181,80,46,0.16), transparent 60%);
+  }
+  .hero-grid{
+    display:grid;grid-template-columns:1.15fr 0.85fr;gap:56px;align-items:end;
+  }
+  .eyebrow-line{
+    display:flex;align-items:center;gap:10px;margin-bottom:18px;color:var(--sand-dim);font-size:13px;
+  }
+  .eyebrow-line .dot{width:6px;height:6px;background:var(--khaki);border-radius:50%;}
+  .hero h1{
+    font-size:48px;line-height:1.06;max-width:560px;
+  }
+  .hero p.lede{
+    margin-top:18px;max-width:440px;color:var(--sand-dim);font-size:16.5px;
+  }
+  .stat-block{
+    display:flex;gap:36px;margin-top:34px;
+  }
+  .stat-block div b{display:block;font-size:26px;font-family:'Space Grotesk',sans-serif;color:var(--sand);}
+  .stat-block div span{font-size:12.5px;color:var(--sand-dim);}
+  .hero-plate{
+    justify-self:end;align-self:end;
+    border:2px solid var(--charcoal);
+    background:var(--plate-yellow);
+    color:var(--charcoal);
+    padding:22px 26px;
+    border-radius:6px;
+    font-family:'Space Grotesk',sans-serif;
+    width:100%;max-width:320px;
+    box-shadow:0 18px 40px rgba(0,0,0,0.35);
+  }
+  .hero-plate .plate-top{
+    display:flex;justify-content:space-between;font-size:11px;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;opacity:0.75;
+    border-bottom:2px dashed rgba(27,26,23,0.3);padding-bottom:10px;margin-bottom:12px;
+  }
+  .hero-plate .plate-number{font-size:34px;font-weight:700;letter-spacing:0.03em;}
+  .hero-plate .plate-foot{font-size:12.5px;margin-top:10px;font-weight:500;}
+
+  /* ---------- search bar ---------- */
+  .search-panel{
+    margin-top:-30px;
+    position:relative;
+    z-index:5;
+  }
+  .search-card{
+    background:var(--charcoal-2);
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    padding:20px;
+    display:grid;
+    grid-template-columns:1.3fr 1fr 1fr 1fr auto;
+    gap:14px;
+  }
+  .field label{
+    display:block;font-size:11.5px;color:var(--sand-dim);margin-bottom:6px;
+  }
+  .field input, .field select{
+    width:100%;
+    background:var(--charcoal);
+    border:1px solid var(--line);
+    color:var(--sand);
+    padding:10px 11px;
+    border-radius:var(--radius);
+    font-size:14px;
+    font-family:inherit;
+  }
+  .field select{appearance:none;}
+  .search-btn{
+    align-self:end;
+    background:var(--sienna);
+    border:1px solid var(--sienna);
+    color:var(--sand);
+    padding:0 22px;
+    height:41px;
+    border-radius:var(--radius);
+    font-weight:600;
+    font-size:14px;
+    cursor:pointer;
+  }
+  .search-btn:hover{background:var(--sienna-dim);}
+
+  /* ---------- listings ---------- */
+  .listings-section{padding:64px 0 40px;}
+  .listings-head{
+    display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:28px;flex-wrap:wrap;gap:14px;
+  }
+  .listings-head h2{font-size:26px;}
+  .result-count{color:var(--sand-dim);font-size:14px;}
+  .sort-row{display:flex;gap:10px;align-items:center;font-size:13.5px;color:var(--sand-dim);}
+  .sort-row select{
+    background:var(--charcoal-2);border:1px solid var(--line);color:var(--sand);
+    padding:7px 10px;border-radius:var(--radius);font-family:inherit;font-size:13.5px;
+  }
+
+  .grid{
+    display:grid;grid-template-columns:repeat(3,1fr);gap:22px;
+  }
+  .card{
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    overflow:hidden;
+    background:var(--charcoal-2);
+    display:flex;flex-direction:column;
+  }
+  .card .photo{
+    aspect-ratio:4/3;
+    background-size:cover;background-position:center;
+    position:relative;
+  }
+  .card .badge{
+    position:absolute;top:10px;left:10px;
+    background:rgba(27,26,23,0.85);
+    color:var(--sand);
+    font-size:11px;font-weight:600;
+    padding:5px 9px;border-radius:2px;
+    border:1px solid rgba(239,230,211,0.15);
+    text-transform:uppercase;letter-spacing:0.04em;
+  }
+  .card .price-tag{
+    position:absolute;bottom:10px;right:10px;
+    background:var(--plate-yellow);
+    color:var(--charcoal);
+    font-family:'Space Grotesk',sans-serif;
+    font-weight:700;
+    font-size:16px;
+    padding:5px 10px;
+    border-radius:3px;
+  }
+  .card .body{padding:16px 16px 18px;flex:1;display:flex;flex-direction:column;}
+  .card h3{font-size:17px;margin-bottom:4px;}
+  .card .loc{color:var(--sand-dim);font-size:13px;margin-bottom:12px;}
+  .spec-row{
+    display:flex;gap:14px;font-size:12.5px;color:var(--sand-dim);
+    border-top:1px solid var(--line);padding-top:12px;margin-top:auto;
+  }
+  .spec-row span{display:flex;align-items:center;gap:5px;}
+  .card-actions{display:flex;gap:8px;margin-top:14px;}
+  .btn-outline{
+    flex:1;text-align:center;
+    border:1px solid var(--line);
+    padding:9px 0;border-radius:var(--radius);
+    font-size:13.5px;color:var(--sand);
+  }
+  .btn-outline:hover{border-color:var(--sand-dim);}
+  .btn-whatsapp{
+    flex:1;text-align:center;
+    background:var(--khaki);
+    border:1px solid var(--khaki);
+    padding:9px 0;border-radius:var(--radius);
+    font-size:13.5px;color:var(--charcoal);font-weight:600;
+  }
+  .btn-whatsapp:hover{filter:brightness(1.08);}
+
+  .empty-state{
+    display:none;
+    text-align:center;padding:60px 20px;color:var(--sand-dim);
+    border:1px dashed var(--line);border-radius:var(--radius);
+  }
+  .empty-state h3{color:var(--sand);margin-bottom:8px;}
+
+  /* ---------- sell CTA ---------- */
+  .sell-cta{
+    border-top:1px solid var(--line);border-bottom:1px solid var(--line);
+    padding:52px 0;margin-top:56px;
+    background:linear-gradient(120deg, rgba(124,138,99,0.08), transparent 60%);
+  }
+  .sell-grid{display:grid;grid-template-columns:1.2fr 0.8fr;gap:40px;align-items:center;}
+  .sell-grid h2{font-size:28px;max-width:420px;}
+  .sell-grid p{color:var(--sand-dim);margin-top:12px;max-width:420px;}
+  .sell-steps{display:flex;flex-direction:column;gap:14px;}
+  .sell-step{display:flex;gap:12px;align-items:flex-start;font-size:14.5px;}
+  .sell-step .n{
+    background:var(--sienna);color:var(--sand);
+    width:24px;height:24px;border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+    font-size:12px;font-weight:700;flex-shrink:0;
+  }
+
+  /* ---------- footer ---------- */
+  footer{padding:44px 0 30px;}
+  .foot-grid{
+    display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:32px;
+    border-bottom:1px solid var(--line);padding-bottom:32px;margin-bottom:20px;
+  }
+  footer h4{font-size:13px;text-transform:uppercase;letter-spacing:0.05em;color:var(--sand-dim);margin-bottom:14px;font-weight:600;}
+  footer .foot-logo{font-size:18px;margin-bottom:10px;}
+  footer .foot-desc{color:var(--sand-dim);font-size:13.5px;max-width:320px;}
+  footer ul{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:9px;}
+  footer ul a{color:var(--sand-dim);font-size:14px;}
+  footer ul a:hover{color:var(--sand);}
+  .foot-bottom{display:flex;justify-content:space-between;color:var(--sand-dim);font-size:12.5px;flex-wrap:wrap;gap:8px;}
+
+  /* ---------- responsive ---------- */
+  @media (max-width:860px){
+    nav.links{display:none;}
+    .menu-toggle{display:block;}
+    .hero-grid{grid-template-columns:1fr;}
+    .hero-plate{justify-self:start;margin-top:24px;max-width:280px;}
+    .hero h1{font-size:36px;}
+    .search-card{grid-template-columns:1fr 1fr;}
+    .search-card .field:nth-child(1){grid-column:1/-1;}
+    .search-btn{grid-column:1/-1;height:44px;}
+    .grid{grid-template-columns:1fr 1fr;}
+    .sell-grid{grid-template-columns:1fr;}
+    .foot-grid{grid-template-columns:1fr;}
+  }
+  @media (max-width:560px){
+    .grid{grid-template-columns:1fr;}
+    .search-card{grid-template-columns:1fr;}
+    .stat-block{gap:22px;}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap nav">
+    <a href="#top" class="logo"><span class="mark">Farai</span> CarFinder</a>
+    <nav class="links">
+      <a href="#listings">Buy</a>
+      <a href="#sell">Sell</a>
+      <a href="#contact">Contact</a>
+    </nav>
+    <a href="#sell" class="navbtn">List your car</a>
+  </div>
+</header>
+
+<main id="top">
+
+  <section class="hero">
+    <div class="wrap hero-grid">
+      <div>
+        <div class="eyebrow-line"><span class="dot"></span> Harare · Bulawayo · Mutare · Gweru</div>
+        <h1>Find your next car, without the runaround.</h1>
+        <p class="lede">Farai CarFinder lists vetted cars from dealers and private sellers across Zimbabwe — clearance status, mileage and price shown upfront, so you're not chasing sellers for basics.</p>
+        <div class="stat-block">
+          <div><b>340+</b><span>cars listed</span></div>
+          <div><b>4</b><span>cities covered</span></div>
+          <div><b>USD</b><span>prices, no surprises</span></div>
+        </div>
+      </div>
+      <div class="hero-plate">
+        <div class="plate-top"><span>Zimbabwe</span><span>Est. Harare</span></div>
+        <div class="plate-number">CAR FNDR</div>
+        <div class="plate-foot">Every listing checked before it goes live</div>
+      </div>
+    </div>
+  </section>
+
+  <div class="wrap search-panel">
+    <div class="search-card">
+      <div class="field">
+        <label for="q">Make or model</label>
+        <input id="q" type="text" placeholder="e.g. Toyota Hilux">
+      </div>
+      <div class="field">
+        <label for="loc">Location</label>
+        <select id="loc">
+          <option value="">All cities</option>
+          <option>Harare</option>
+          <option>Bulawayo</option>
+          <option>Mutare</option>
+          <option>Gweru</option>
+          <option>Masvingo</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="price">Max price (USD)</label>
+        <select id="price">
+          <option value="">Any price</option>
+          <option value="5000">Under $5,000</option>
+          <option value="10000">Under $10,000</option>
+          <option value="20000">Under $20,000</option>
+          <option value="40000">Under $40,000</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="trans">Transmission</label>
+        <select id="trans">
+          <option value="">Any</option>
+          <option>Manual</option>
+          <option>Automatic</option>
+        </select>
+      </div>
+      <button class="search-btn" id="searchBtn">Search</button>
+    </div>
+  </div>
+
+  <section class="listings-section" id="listings">
+    <div class="wrap">
+      <div class="listings-head">
+        <div>
+          <h2>Cars for sale</h2>
+          <div class="result-count" id="resultCount">— listings</div>
+        </div>
+        <div class="sort-row">
+          <label for="sort">Sort by</label>
+          <select id="sort">
+            <option value="newest">Newest</option>
+            <option value="price-asc">Price: low to high</option>
+            <option value="price-desc">Price: high to low</option>
+            <option value="mileage-asc">Mileage: lowest first</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="grid" id="grid"></div>
+
+      <div class="empty-state" id="emptyState">
+        <h3>No cars match those filters</h3>
+        <p>Try a different city, a higher price limit, or clear your search.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="sell-cta" id="sell">
+    <div class="wrap sell-grid">
+      <div>
+        <h2>Selling a car? Reach buyers across Zimbabwe.</h2>
+        <p>Send us your car's details on WhatsApp and we'll get it listed — no account setup, no listing fee for your first car.</p>
+        <a href="https://wa.me/263771234567?text=Hi%20Farai%20CarFinder%2C%20I%27d%20like%20to%20list%20my%20car" class="navbtn" style="display:inline-block;margin-top:20px;">Message us on WhatsApp</a>
+      </div>
+      <div class="sell-steps">
+        <div class="sell-step"><span class="n">1</span> Send photos, mileage, and asking price</div>
+        <div class="sell-step"><span class="n">2</span> We confirm clearance and roadworthy status</div>
+        <div class="sell-step"><span class="n">3</span> Your car goes live and buyers contact you directly</div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer id="contact">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <div class="foot-logo"><span class="mark" style="color:var(--sienna)">Farai</span> CarFinder</div>
+        <p class="foot-desc">A straightforward place to buy and sell cars in Zimbabwe. Based in Harare, covering buyers and sellers nationwide.</p>
+      </div>
+      <div>
+        <h4>Explore</h4>
+        <ul>
+          <li><a href="#listings">Browse cars</a></li>
+          <li><a href="#sell">Sell your car</a></li>
+          <li><a href="#top">Back to top</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Contact</h4>
+        <ul>
+          <li><a href="https://wa.me/263771234567">WhatsApp: +263 77 123 4567</a></li>
+          <li><a href="mailto:hello@faraicarfinder.co.zw">hello@faraicarfinder.co.zw</a></li>
+          <li>Harare, Zimbabwe</li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© 2026 Farai CarFinder.</span>
+      <span>Prices in USD. Listings updated by sellers.</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+const CARS = [
+  { make:"Toyota", model:"Hilux", year:2017, price:22500, loc:"Harare", mileage:98000, trans:"Manual", fuel:"Diesel", clearance:"Cleared", img:"https://images.unsplash.com/photo-1594502184342-2e12f877aa73?w=600&q=70&auto=format", posted:9 },
+  { make:"Honda", model:"Fit", year:2015, price:6800, loc:"Bulawayo", mileage:76000, trans:"Automatic", fuel:"Petrol", clearance:"Cleared", img:"https://images.unsplash.com/photo-1590362891991-f776e747a588?w=600&q=70&auto=format", posted:3 },
+  { make:"Toyota", model:"Wish", year:2014, price:8200, loc:"Harare", mileage:112000, trans:"Automatic", fuel:"Petrol", clearance:"Cleared", img:"https://images.unsplash.com/photo-1617469767053-d3b523a0b982?w=600&q=70&auto=format", posted:14 },
+  { make:"Mazda", model:"Demio", year:2016, price:5400, loc:"Mutare", mileage:64000, trans:"Automatic", fuel:"Petrol", clearance:"Cleared", img:"https://images.unsplash.com/photo-1541899481282-d53bffe3c35d?w=600&q=70&auto=format", posted:2 },
+  { make:"Nissan", model:"NP200", year:2018, price:11900, loc:"Gweru", mileage:52000, trans:"Manual", fuel:"Petrol", clearance:"Cleared", img:"https://images.unsplash.com/photo-1605559911160-a3d95d213904?w=600&q=70&auto=format", posted:20 },
+  { make:"Toyota", model:"Corolla", year:2013, price:7300, loc:"Harare", mileage:134000, trans:"Manual", fuel:"Petrol", clearance:"Cleared", img:"https://images.unsplash.com/photo-1623869675184-0d92395e0247?w=600&q=70&auto=format", posted:6 },
+  { make:"Honda", model:"CR-V", year:2016, price:15600, loc:"Bulawayo", mileage:88000, trans:"Automatic", fuel:"Petrol", clearance:"Uncleared", img:"https://images.unsplash.com/photo-1568844293986-8d0400bd4745?w=600&q=70&auto=format", posted:1 },
+  { make:"Toyota", model:"Vitz", year:2017, price:6100, loc:"Masvingo", mileage:71000, trans:"Automatic", fuel:"Petrol", clearance:"Cleared", img:"https://images.unsplash.com/photo-1617654112368-307921291f42?w=600&q=70&auto=format", posted:11 },
+  { make:"Mercedes-Benz", model:"C200", year:2015, price:18900, loc:"Harare", mileage:69000, trans:"Automatic", fuel:"Petrol", clearance:"Cleared", img:"https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?w=600&q=70&auto=format", posted:17 },
+  { make:"Isuzu", model:"KB250", year:2012, price:9800, loc:"Gweru", mileage:158000, trans:"Manual", fuel:"Diesel", clearance:"Cleared", img:"https://images.unsplash.com/photo-1571127236794-81c0bbfe1ce3?w=600&q=70&auto=format", posted:25 },
+  { make:"Toyota", model:"Hiace", year:2014, price:16400, loc:"Harare", mileage:145000, trans:"Manual", fuel:"Diesel", clearance:"Uncleared", img:"https://images.unsplash.com/photo-1609520505218-7421df709fa2?w=600&q=70&auto=format", posted:4 },
+  { make:"Suzuki", model:"Swift", year:2018, price:8700, loc:"Mutare", mileage:41000, trans:"Automatic", fuel:"Petrol", clearance:"Cleared", img:"https://images.unsplash.com/photo-1590510696618-8fbfebae2b78?w=600&q=70&auto=format", posted:8 },
+];
+
+const grid = document.getElementById('grid');
+const emptyState = document.getElementById('emptyState');
+const resultCount = document.getElementById('resultCount');
+
+function fmtPrice(n){ return '$' + n.toLocaleString('en-US'); }
+function fmtMileage(n){ return n.toLocaleString('en-US') + ' km'; }
+
+function render(){
+  const q = document.getElementById('q').value.trim().toLowerCase();
+  const loc = document.getElementById('loc').value;
+  const maxPrice = document.getElementById('price').value;
+  const trans = document.getElementById('trans').value;
+  const sort = document.getElementById('sort').value;
+
+  let results = CARS.filter(c => {
+    const text = (c.make + ' ' + c.model).toLowerCase();
+    if (q && !text.includes(q)) return false;
+    if (loc && c.loc !== loc) return false;
+    if (maxPrice && c.price > Number(maxPrice)) return false;
+    if (trans && c.trans !== trans) return false;
+    return true;
+  });
+
+  if (sort === 'price-asc') results.sort((a,b) => a.price - b.price);
+  else if (sort === 'price-desc') results.sort((a,b) => b.price - a.price);
+  else if (sort === 'mileage-asc') results.sort((a,b) => a.mileage - b.mileage);
+  else results.sort((a,b) => a.posted - b.posted);
+
+  resultCount.textContent = results.length + (results.length === 1 ? ' listing' : ' listings');
+
+  if (results.length === 0){
+    grid.style.display = 'none';
+    emptyState.style.display = 'block';
+    return;
+  }
+  grid.style.display = 'grid';
+  emptyState.style.display = 'none';
+
+  grid.innerHTML = results.map(c => {
+    const waText = encodeURIComponent(`Hi, I'm interested in the ${c.year} ${c.make} ${c.model} listed for ${fmtPrice(c.price)} on Farai CarFinder.`);
+    return `
+    <div class="card">
+      <div class="photo" style="background-image:url('${c.img}')">
+        <span class="badge">${c.clearance}</span>
+        <span class="price-tag">${fmtPrice(c.price)}</span>
+      </div>
+      <div class="body">
+        <h3>${c.year} ${c.make} ${c.model}</h3>
+        <div class="loc">${c.loc}</div>
+        <div class="spec-row">
+          <span>${fmtMileage(c.mileage)}</span>
+          <span>${c.trans}</span>
+          <span>${c.fuel}</span>
+        </div>
+        <div class="card-actions">
+          <a class="btn-outline" href="#top">Details</a>
+          <a class="btn-whatsapp" href="https://wa.me/263771234567?text=${waText}" target="_blank" rel="noopener">WhatsApp</a>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+document.getElementById('searchBtn').addEventListener('click', render);
+document.getElementById('sort').addEventListener('change', render);
+document.getElementById('loc').addEventListener('change', render);
+document.getElementById('price').addEventListener('change', render);
+document.getElementById('trans').addEventListener('change', render);
+document.getElementById('q').addEventListener('keydown', e => { if (e.key === 'Enter') render(); });
+
+render();
+</script>
+
+</body>
+</html>
