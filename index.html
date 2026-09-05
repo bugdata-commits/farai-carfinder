@@ -12,6 +12,7 @@
   :root{
     --charcoal:#1b1a17;
     --charcoal-2:#242220;
+    --charcoal-3:#2c2925;
     --sand:#efe6d3;
     --sand-dim:#c9bfa8;
     --sienna:#b5502e;
@@ -38,7 +39,10 @@
   }
   a{color:inherit;text-decoration:none;}
   img{max-width:100%;display:block;}
+  button{cursor:pointer;font-family:inherit;}
   .wrap{max-width:1160px;margin:0 auto;padding:0 24px;}
+  .page{display:block;}
+  .page[hidden]{display:none;}
 
   /* focus visibility */
   a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible{
@@ -61,6 +65,7 @@
   .nav{
     display:flex;align-items:center;justify-content:space-between;
     padding:18px 0;
+    position:relative;
   }
   .logo{
     display:flex;align-items:baseline;gap:8px;
@@ -69,15 +74,9 @@
   .logo .mark{
     color:var(--sienna);
   }
-  .logo .sub{
-    font-family:'IBM Plex Sans',sans-serif;
-    font-weight:400;
-    font-size:12px;
-    color:var(--sand-dim);
-  }
   nav.links{display:flex;gap:28px;font-size:15px;}
-  nav.links a{color:var(--sand-dim);transition:color .15s;}
-  nav.links a:hover{color:var(--sand);}
+  nav.links a{color:var(--sand-dim);transition:color .15s;padding:4px 0;}
+  nav.links a:hover, nav.links a.active{color:var(--sand);}
   .navbtn{
     background:var(--sienna);color:var(--sand);
     padding:9px 18px;border-radius:var(--radius);
@@ -85,7 +84,21 @@
     border:1px solid var(--sienna);
   }
   .navbtn:hover{background:var(--sienna-dim);}
-  .menu-toggle{display:none;background:none;border:1px solid var(--line);color:var(--sand);padding:8px 12px;border-radius:var(--radius);font-size:14px;}
+  .menu-toggle{
+    display:none;background:none;border:1px solid var(--line);color:var(--sand);
+    padding:8px 12px;border-radius:var(--radius);font-size:14px;
+  }
+  .mobile-panel{
+    display:none;
+    position:absolute;top:100%;left:0;right:0;
+    background:var(--charcoal-2);
+    border-bottom:1px solid var(--line);
+    flex-direction:column;gap:4px;
+    padding:14px 24px 18px;
+  }
+  .mobile-panel.open{display:flex;}
+  .mobile-panel a{color:var(--sand-dim);padding:10px 0;border-bottom:1px solid var(--line);font-size:15px;}
+  .mobile-panel a:last-child{border-bottom:none;}
 
   /* ---------- hero ---------- */
   .hero{
@@ -130,6 +143,13 @@
   .hero-plate .plate-number{font-size:34px;font-weight:700;letter-spacing:0.03em;}
   .hero-plate .plate-foot{font-size:12.5px;margin-top:10px;font-weight:500;}
 
+  /* ---------- generic page header (match / blog / post) ---------- */
+  .page-head{padding:56px 0 8px;}
+  .page-head .kicker{color:var(--sand-dim);font-size:13px;display:flex;align-items:center;gap:10px;margin-bottom:14px;}
+  .page-head .kicker .dot{width:6px;height:6px;background:var(--khaki);border-radius:50%;}
+  .page-head h1{font-size:38px;max-width:640px;}
+  .page-head p{color:var(--sand-dim);margin-top:14px;max-width:520px;font-size:15.5px;}
+
   /* ---------- search bar ---------- */
   .search-panel{
     margin-top:-30px;
@@ -169,7 +189,6 @@
     border-radius:var(--radius);
     font-weight:600;
     font-size:14px;
-    cursor:pointer;
   }
   .search-btn:hover{background:var(--sienna-dim);}
 
@@ -186,6 +205,18 @@
     padding:7px 10px;border-radius:var(--radius);font-family:inherit;font-size:13.5px;
   }
 
+  .recent-strip{margin-bottom:36px;}
+  .recent-strip h3{font-size:14px;color:var(--sand-dim);font-weight:600;margin-bottom:12px;text-transform:none;}
+  .recent-row{display:flex;gap:12px;overflow-x:auto;padding-bottom:6px;}
+  .recent-item{
+    flex:0 0 auto;width:150px;border:1px solid var(--line);border-radius:var(--radius);
+    background:var(--charcoal-2);overflow:hidden;
+  }
+  .recent-item .thumb{height:84px;background-size:cover;background-position:center;}
+  .recent-item .info{padding:8px 10px;}
+  .recent-item .info b{display:block;font-size:12.5px;}
+  .recent-item .info span{font-size:11.5px;color:var(--sand-dim);}
+
   .grid{
     display:grid;grid-template-columns:repeat(3,1fr);gap:22px;
   }
@@ -196,6 +227,7 @@
     background:var(--charcoal-2);
     display:flex;flex-direction:column;
   }
+  .card.is-comparing{border-color:var(--plate-yellow);}
   .card .photo{
     aspect-ratio:4/3;
     background-size:cover;background-position:center;
@@ -220,6 +252,14 @@
     padding:5px 10px;
     border-radius:3px;
   }
+  .card .icon-row{position:absolute;top:10px;right:10px;display:flex;gap:6px;}
+  .icon-btn{
+    width:30px;height:30px;border-radius:50%;
+    background:rgba(27,26,23,0.85);border:1px solid rgba(239,230,211,0.15);
+    display:flex;align-items:center;justify-content:center;
+    color:var(--sand);font-size:14px;padding:0;
+  }
+  .icon-btn:hover{background:var(--charcoal-3);}
   .card .body{padding:16px 16px 18px;flex:1;display:flex;flex-direction:column;}
   .card h3{font-size:17px;margin-bottom:4px;}
   .card .loc{color:var(--sand-dim);font-size:13px;margin-bottom:12px;}
@@ -234,6 +274,7 @@
     border:1px solid var(--line);
     padding:9px 0;border-radius:var(--radius);
     font-size:13.5px;color:var(--sand);
+    background:none;
   }
   .btn-outline:hover{border-color:var(--sand-dim);}
   .btn-whatsapp{
@@ -244,6 +285,8 @@
     font-size:13.5px;color:var(--charcoal);font-weight:600;
   }
   .btn-whatsapp:hover{filter:brightness(1.08);}
+  .compare-check{display:flex;align-items:center;gap:7px;margin-top:12px;font-size:12.5px;color:var(--sand-dim);}
+  .compare-check input{accent-color:var(--sienna);}
 
   .empty-state{
     display:none;
@@ -270,6 +313,127 @@
     font-size:12px;font-weight:700;flex-shrink:0;
   }
 
+  /* ---------- AI match page ---------- */
+  .match-wrap{padding:32px 0 70px;display:grid;grid-template-columns:0.85fr 1.15fr;gap:36px;align-items:start;}
+  .quiz-card{
+    background:var(--charcoal-2);border:1px solid var(--line);border-radius:var(--radius);
+    padding:24px;position:sticky;top:96px;
+  }
+  .quiz-card h3{font-size:16px;margin-bottom:4px;}
+  .quiz-card .hint{color:var(--sand-dim);font-size:13px;margin-bottom:18px;}
+  .quiz-field{margin-bottom:16px;}
+  .quiz-field label{display:block;font-size:12.5px;color:var(--sand-dim);margin-bottom:6px;}
+  .quiz-field select{
+    width:100%;background:var(--charcoal);border:1px solid var(--line);color:var(--sand);
+    padding:10px 11px;border-radius:var(--radius);font-size:14px;font-family:inherit;
+  }
+  .match-btn{
+    width:100%;background:var(--sienna);border:1px solid var(--sienna);color:var(--sand);
+    padding:12px 0;border-radius:var(--radius);font-weight:600;font-size:14.5px;margin-top:6px;
+  }
+  .match-btn:hover{background:var(--sienna-dim);}
+  .match-note{margin-top:14px;font-size:12px;color:var(--sand-dim);border-top:1px solid var(--line);padding-top:12px;}
+
+  .match-results .placeholder{
+    border:1px dashed var(--line);border-radius:var(--radius);padding:50px 24px;text-align:center;color:var(--sand-dim);
+  }
+  .match-card{
+    display:grid;grid-template-columns:150px 1fr;gap:18px;
+    border:1px solid var(--line);border-radius:var(--radius);background:var(--charcoal-2);
+    padding:16px;margin-bottom:16px;
+  }
+  .match-card .photo{aspect-ratio:4/3;background-size:cover;background-position:center;border-radius:2px;}
+  .match-rank{
+    display:inline-flex;align-items:center;gap:7px;color:var(--plate-yellow);font-size:12px;font-weight:600;
+    text-transform:uppercase;letter-spacing:0.04em;margin-bottom:6px;
+  }
+  .match-card h3{font-size:17px;}
+  .match-card .price-line{color:var(--sand-dim);font-size:13.5px;margin-top:2px;}
+  .match-reasons{list-style:none;margin:10px 0 0;padding:0;display:flex;flex-direction:column;gap:5px;}
+  .match-reasons li{font-size:13px;color:var(--sand-dim);padding-left:16px;position:relative;}
+  .match-reasons li:before{content:"✓";position:absolute;left:0;color:var(--khaki);}
+  .match-card .card-actions{margin-top:12px;max-width:340px;}
+
+  /* ---------- blog ---------- */
+  .blog-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;padding:36px 0 70px;}
+  .blog-card{
+    border:1px solid var(--line);border-radius:var(--radius);background:var(--charcoal-2);
+    padding:20px;display:flex;flex-direction:column;
+  }
+  .blog-tag{
+    align-self:flex-start;background:var(--plate-yellow);color:var(--charcoal);
+    font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.04em;
+    padding:4px 9px;border-radius:2px;margin-bottom:14px;
+  }
+  .blog-card h3{font-size:18px;margin-bottom:8px;}
+  .blog-card p{color:var(--sand-dim);font-size:13.5px;flex:1;}
+  .blog-meta{display:flex;justify-content:space-between;color:var(--sand-dim);font-size:12px;margin-top:16px;border-top:1px solid var(--line);padding-top:12px;}
+  .blog-card .read-link{color:var(--sienna);font-size:13.5px;font-weight:600;margin-top:12px;display:inline-block;}
+
+  .post-wrap{padding:32px 0 80px;max-width:720px;margin:0 auto;}
+  .post-back{color:var(--sand-dim);font-size:13.5px;margin-bottom:22px;display:inline-block;}
+  .post-back:hover{color:var(--sand);}
+  .post-wrap h1{font-size:32px;line-height:1.15;}
+  .post-meta{color:var(--sand-dim);font-size:13px;margin-top:12px;margin-bottom:28px;}
+  .post-body p{margin:0 0 18px;color:var(--sand-dim);font-size:15.5px;line-height:1.7;}
+  .post-body p:first-of-type{color:var(--sand);}
+  .post-disclaimer{
+    margin-top:28px;padding:14px 16px;border:1px solid var(--line);border-radius:var(--radius);
+    font-size:13px;color:var(--sand-dim);background:var(--charcoal-2);
+  }
+  .related-posts{margin-top:44px;border-top:1px solid var(--line);padding-top:24px;}
+  .related-posts h4{font-size:14px;color:var(--sand-dim);margin-bottom:14px;}
+  .related-posts a{display:block;font-size:14.5px;padding:8px 0;color:var(--sand);border-bottom:1px solid var(--line);}
+  .related-posts a:last-child{border-bottom:none;}
+
+  /* ---------- detail modal / compare modal / toast ---------- */
+  .overlay{
+    display:none;position:fixed;inset:0;background:rgba(10,9,7,0.72);
+    z-index:100;align-items:flex-start;justify-content:center;padding:40px 20px;overflow-y:auto;
+  }
+  .overlay.open{display:flex;}
+  .modal{
+    background:var(--charcoal-2);border:1px solid var(--line);border-radius:var(--radius);
+    max-width:640px;width:100%;padding:26px;position:relative;
+  }
+  .modal-close{
+    position:absolute;top:14px;right:14px;background:none;border:1px solid var(--line);
+    color:var(--sand);width:30px;height:30px;border-radius:50%;
+  }
+  .modal .photo{aspect-ratio:16/9;background-size:cover;background-position:center;border-radius:2px;margin-bottom:18px;}
+  .modal h2{font-size:22px;}
+  .modal .price-line{font-family:'Space Grotesk',sans-serif;color:var(--plate-yellow);font-size:20px;margin-top:6px;}
+  .modal-specs{display:grid;grid-template-columns:1fr 1fr;gap:10px 18px;margin:18px 0;font-size:13.5px;}
+  .modal-specs div{display:flex;justify-content:space-between;border-bottom:1px solid var(--line);padding-bottom:8px;color:var(--sand-dim);}
+  .modal-specs div b{color:var(--sand);font-weight:500;}
+  .modal .card-actions{margin-top:6px;}
+
+  .compare-table{width:100%;border-collapse:collapse;margin-top:16px;}
+  .compare-table th, .compare-table td{
+    text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);font-size:13.5px;
+  }
+  .compare-table th{color:var(--sand-dim);font-weight:500;width:34%;}
+  .compare-table td{color:var(--sand);}
+
+  .compare-bar{
+    display:none;position:fixed;bottom:0;left:0;right:0;z-index:60;
+    background:var(--charcoal-2);border-top:1px solid var(--line);
+    padding:14px 0;
+  }
+  .compare-bar.open{display:block;}
+  .compare-bar .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;}
+  .compare-bar .items{display:flex;gap:10px;font-size:13.5px;color:var(--sand-dim);flex-wrap:wrap;}
+  .compare-bar .items b{color:var(--sand);}
+  .compare-bar .actions{display:flex;gap:10px;}
+  .compare-bar .clear-link{color:var(--sand-dim);font-size:13px;align-self:center;}
+
+  .toast{
+    position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(10px);
+    background:var(--sand);color:var(--charcoal);padding:11px 20px;border-radius:var(--radius);
+    font-size:13.5px;font-weight:600;z-index:200;opacity:0;pointer-events:none;transition:opacity .2s, transform .2s;
+  }
+  .toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+
   /* ---------- footer ---------- */
   footer{padding:44px 0 30px;}
   .foot-grid{
@@ -295,13 +459,19 @@
     .search-card .field:nth-child(1){grid-column:1/-1;}
     .search-btn{grid-column:1/-1;height:44px;}
     .grid{grid-template-columns:1fr 1fr;}
+    .blog-grid{grid-template-columns:1fr 1fr;}
     .sell-grid{grid-template-columns:1fr;}
     .foot-grid{grid-template-columns:1fr;}
+    .match-wrap{grid-template-columns:1fr;}
+    .quiz-card{position:static;}
+    .match-card{grid-template-columns:100px 1fr;}
   }
   @media (max-width:560px){
     .grid{grid-template-columns:1fr;}
+    .blog-grid{grid-template-columns:1fr;}
     .search-card{grid-template-columns:1fr;}
     .stat-block{gap:22px;}
+    .modal-specs{grid-template-columns:1fr;}
   }
 </style>
 </head>
@@ -309,110 +479,196 @@
 
 <header>
   <div class="wrap nav">
-    <a href="#top" class="logo"><span class="mark">Farai</span> CarFinder</a>
+    <a href="#/home" class="logo"><span class="mark">Farai</span> CarFinder</a>
     <nav class="links">
-      <a href="#listings">Buy</a>
-      <a href="#sell">Sell</a>
+      <a href="#/home" data-page="home">Buy</a>
+      <a href="#/match" data-page="match">AI Match</a>
+      <a href="#/blog" data-page="blog">Blog</a>
+      <a href="#sell" id="navSell">Sell</a>
       <a href="#contact">Contact</a>
     </nav>
-    <a href="#sell" class="navbtn">List your car</a>
+    <a href="#sell" class="navbtn" id="navSellBtn">List your car</a>
+    <button class="menu-toggle" id="menuToggle" aria-expanded="false" aria-controls="mobilePanel">Menu</button>
+    <div class="mobile-panel" id="mobilePanel">
+      <a href="#/home" data-page="home">Buy</a>
+      <a href="#/match" data-page="match">AI Match</a>
+      <a href="#/blog" data-page="blog">Blog</a>
+      <a href="#sell">Sell</a>
+      <a href="#contact">Contact</a>
+    </div>
   </div>
 </header>
 
 <main id="top">
 
-  <section class="hero">
-    <div class="wrap hero-grid">
-      <div>
-        <div class="eyebrow-line"><span class="dot"></span> Bulawayo · Harare · Mutare · Gweru</div>
-        <h1>Find your next car, without the runaround.</h1>
-        <p class="lede">Farai CarFinder lists vetted cars from dealers and private sellers across Zimbabwe — clearance status, mileage and price shown upfront, so you're not chasing sellers for basics.</p>
-        <div class="stat-block">
-          <div><b>340+</b><span>cars listed</span></div>
-          <div><b>4</b><span>cities covered</span></div>
-          <div><b>USD</b><span>prices, no surprises</span></div>
+  <!-- ================= HOME PAGE ================= -->
+  <div class="page" id="page-home">
+    <section class="hero">
+      <div class="wrap hero-grid">
+        <div>
+          <div class="eyebrow-line"><span class="dot"></span> Bulawayo · Harare · Mutare · Gweru</div>
+          <h1>Find your next car, without the runaround.</h1>
+          <p class="lede">Farai CarFinder lists vetted cars from dealers and private sellers across Zimbabwe — clearance status, mileage and price shown upfront, so you're not chasing sellers for basics.</p>
+          <div class="stat-block">
+            <div><b>12</b><span>cars listed</span></div>
+            <div><b>4</b><span>cities covered</span></div>
+            <div><b>USD</b><span>prices, no surprises</span></div>
+          </div>
+        </div>
+        <div class="hero-plate">
+          <div class="plate-top"><span>Zimbabwe</span><span>Est. Bulawayo</span></div>
+          <div class="plate-number">CAR FNDR</div>
+          <div class="plate-foot">Every listing checked before it goes live</div>
         </div>
       </div>
-      <div class="hero-plate">
-        <div class="plate-top"><span>Zimbabwe</span><span>Est. Bulawayo</span></div>
-        <div class="plate-number">CAR FNDR</div>
-        <div class="plate-foot">Every listing checked before it goes live</div>
+    </section>
+
+    <div class="wrap search-panel">
+      <div class="search-card">
+        <div class="field">
+          <label for="q">Make or model</label>
+          <input id="q" type="text" placeholder="e.g. Toyota Hilux">
+        </div>
+        <div class="field">
+          <label for="loc">Location</label>
+          <select id="loc">
+            <option value="">All cities</option>
+            <option>Harare</option>
+            <option>Bulawayo</option>
+            <option>Mutare</option>
+            <option>Gweru</option>
+            <option>Masvingo</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="price">Max price (USD)</label>
+          <select id="price">
+            <option value="">Any price</option>
+            <option value="5000">Under $5,000</option>
+            <option value="10000">Under $10,000</option>
+            <option value="20000">Under $20,000</option>
+            <option value="40000">Under $40,000</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="trans">Transmission</label>
+          <select id="trans">
+            <option value="">Any</option>
+            <option>Manual</option>
+            <option>Automatic</option>
+          </select>
+        </div>
+        <button class="search-btn" id="searchBtn">Search</button>
       </div>
     </div>
-  </section>
 
-  <div class="wrap search-panel">
-    <div class="search-card">
-      <div class="field">
-        <label for="q">Make or model</label>
-        <input id="q" type="text" placeholder="e.g. Toyota Hilux">
+    <section class="listings-section" id="listings">
+      <div class="wrap">
+
+        <div class="recent-strip" id="recentStrip" style="display:none;">
+          <h3>Recently viewed</h3>
+          <div class="recent-row" id="recentRow"></div>
+        </div>
+
+        <div class="listings-head">
+          <div>
+            <h2>Cars for sale</h2>
+            <div class="result-count" id="resultCount">— listings</div>
+          </div>
+          <div class="sort-row">
+            <label for="sort">Sort by</label>
+            <select id="sort">
+              <option value="newest">Newest</option>
+              <option value="price-asc">Price: low to high</option>
+              <option value="price-desc">Price: high to low</option>
+              <option value="mileage-asc">Mileage: lowest first</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="grid" id="grid"></div>
+
+        <div class="empty-state" id="emptyState">
+          <h3>No cars match those filters</h3>
+          <p>Try a different city, a higher price limit, or clear your search.</p>
+        </div>
       </div>
-      <div class="field">
-        <label for="loc">Location</label>
-        <select id="loc">
-          <option value="">All cities</option>
-          <option>Harare</option>
-          <option>Bulawayo</option>
-          <option>Mutare</option>
-          <option>Gweru</option>
-          <option>Masvingo</option>
-        </select>
+    </section>
+  </div>
+
+  <!-- ================= AI MATCH PAGE ================= -->
+  <div class="page" id="page-match" hidden>
+    <div class="wrap page-head">
+      <div class="kicker"><span class="dot"></span> AI Match</div>
+      <h1>Tell us what you need. We'll shortlist the cars.</h1>
+      <p>Answer three questions and we'll rank the current listings against your budget, how you'll use the car, and where you're based.</p>
+    </div>
+    <div class="wrap match-wrap">
+      <div class="quiz-card">
+        <h3>Your preferences</h3>
+        <div class="hint">Takes about 15 seconds.</div>
+        <div class="quiz-field">
+          <label for="mBudget">Budget (USD)</label>
+          <select id="mBudget">
+            <option value="">No strict limit</option>
+            <option value="6000">Up to $6,000</option>
+            <option value="10000">Up to $10,000</option>
+            <option value="16000">Up to $16,000</option>
+            <option value="25000">Up to $25,000</option>
+          </select>
+        </div>
+        <div class="quiz-field">
+          <label for="mUse">Main use</label>
+          <select id="mUse">
+            <option value="">Not sure yet</option>
+            <option value="commute">Daily commute</option>
+            <option value="family">Family & school runs</option>
+            <option value="business">Business or transport</option>
+            <option value="farm">Farm & off-road</option>
+          </select>
+        </div>
+        <div class="quiz-field">
+          <label for="mCity">City</label>
+          <select id="mCity">
+            <option value="">No preference</option>
+            <option>Harare</option>
+            <option>Bulawayo</option>
+            <option>Mutare</option>
+            <option>Gweru</option>
+            <option>Masvingo</option>
+          </select>
+        </div>
+        <button class="match-btn" id="matchBtn">Show my matches</button>
+        <div class="match-note">This shortlist comes from a rules-based matching script that scores listings against your answers — it's not a live AI model generating text.</div>
       </div>
-      <div class="field">
-        <label for="price">Max price (USD)</label>
-        <select id="price">
-          <option value="">Any price</option>
-          <option value="5000">Under $5,000</option>
-          <option value="10000">Under $10,000</option>
-          <option value="20000">Under $20,000</option>
-          <option value="40000">Under $40,000</option>
-        </select>
+      <div class="match-results" id="matchResults">
+        <div class="placeholder">Fill in the form and tap "Show my matches" to see your shortlist here.</div>
       </div>
-      <div class="field">
-        <label for="trans">Transmission</label>
-        <select id="trans">
-          <option value="">Any</option>
-          <option>Manual</option>
-          <option>Automatic</option>
-        </select>
-      </div>
-      <button class="search-btn" id="searchBtn">Search</button>
     </div>
   </div>
 
-  <section class="listings-section" id="listings">
-    <div class="wrap">
-      <div class="listings-head">
-        <div>
-          <h2>Cars for sale</h2>
-          <div class="result-count" id="resultCount">— listings</div>
-        </div>
-        <div class="sort-row">
-          <label for="sort">Sort by</label>
-          <select id="sort">
-            <option value="newest">Newest</option>
-            <option value="price-asc">Price: low to high</option>
-            <option value="price-desc">Price: high to low</option>
-            <option value="mileage-asc">Mileage: lowest first</option>
-          </select>
-        </div>
-      </div>
-
-      <div class="grid" id="grid"></div>
-
-      <div class="empty-state" id="emptyState">
-        <h3>No cars match those filters</h3>
-        <p>Try a different city, a higher price limit, or clear your search.</p>
-      </div>
+  <!-- ================= BLOG LIST PAGE ================= -->
+  <div class="page" id="page-blog" hidden>
+    <div class="wrap page-head">
+      <div class="kicker"><span class="dot"></span> Blog</div>
+      <h1>Buying and importing guides</h1>
+      <p>Straight answers to the questions we get most from buyers and sellers — clearance, roadworthy, and paying for a car.</p>
     </div>
-  </section>
+    <div class="wrap blog-grid" id="blogGrid"></div>
+  </div>
 
+  <!-- ================= BLOG POST PAGE ================= -->
+  <div class="page" id="page-post" hidden>
+    <div class="wrap post-wrap" id="postContent"></div>
+  </div>
+
+  <!-- ================= SELL CTA (always visible) ================= -->
   <section class="sell-cta" id="sell">
     <div class="wrap sell-grid">
       <div>
         <h2>Selling a car? Reach buyers across Zimbabwe.</h2>
         <p>Send us your car's details on WhatsApp and we'll get it listed — no account setup, no listing fee for your first car.</p>
-        <a href="https://wa.me/263771234567?text=Hi%20Farai%20CarFinder%2C%20I%27d%20like%20to%20list%20my%20car" class="navbtn" style="display:inline-block;margin-top:20px;">Message us on WhatsApp</a>
+        <a href="https://wa.me/263782067259?text=Hi%20Farai%20CarFinder%2C%20I%27d%20like%20to%20list%20my%20car" class="navbtn" style="display:inline-block;margin-top:20px;">Message us on WhatsApp</a>
       </div>
       <div class="sell-steps">
         <div class="sell-step"><span class="n">1</span> Send photos, mileage, and asking price</div>
@@ -429,20 +685,21 @@
     <div class="foot-grid">
       <div>
         <div class="foot-logo"><span class="mark" style="color:var(--sienna)">Farai</span> CarFinder</div>
-        <p class="foot-desc">A straightforward place to buy and sell cars in Zimbabwe. Based in Harare, covering buyers and sellers nationwide.</p>
+        <p class="foot-desc">A straightforward place to buy and sell cars in Zimbabwe. Based in Bulawayo, covering buyers and sellers nationwide.</p>
       </div>
       <div>
         <h4>Explore</h4>
         <ul>
-          <li><a href="#listings">Browse cars</a></li>
+          <li><a href="#/home">Browse cars</a></li>
+          <li><a href="#/match">AI Match</a></li>
+          <li><a href="#/blog">Blog</a></li>
           <li><a href="#sell">Sell your car</a></li>
-          <li><a href="#top">Back to top</a></li>
         </ul>
       </div>
       <div>
         <h4>Contact</h4>
         <ul>
-          <li><a href="https://wa.me/263771234567">WhatsApp: +263 77 123 4567</a></li>
+          <li><a href="https://wa.me/263782067259">WhatsApp: +263 77 123 4567</a></li>
           <li><a href="mailto:hello@faraicarfinder.co.zw">hello@faraicarfinder.co.zw</a></li>
           <li>Harare, Zimbabwe</li>
         </ul>
@@ -455,30 +712,211 @@
   </div>
 </footer>
 
+<!-- Detail modal -->
+<div class="overlay" id="detailOverlay">
+  <div class="modal" id="detailModal"></div>
+</div>
+
+<!-- Compare modal -->
+<div class="overlay" id="compareOverlay">
+  <div class="modal" id="compareModal"></div>
+</div>
+
+<!-- Compare bar -->
+<div class="compare-bar" id="compareBar">
+  <div class="wrap">
+    <div class="items" id="compareItems"></div>
+    <div class="actions">
+      <a class="clear-link" id="compareClear">Clear</a>
+      <button class="search-btn" id="compareOpenBtn">Compare now</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
 <script>
+/* ============ DATA ============ */
 const CARS = [
-  { make:"Toyota", model:"Hilux", year:2017, price:22500, loc:"Harare", mileage:98000, trans:"Manual", fuel:"Diesel", clearance:"Cleared", img:"https://images.unsplash.com/photo-1594502184342-2e12f877aa73?w=600&q=70&auto=format", posted:9 },
-  { make:"Honda", model:"Fit", year:2015, price:6800, loc:"Bulawayo", mileage:76000, trans:"Automatic", fuel:"Petrol", clearance:"Cleared", img:"https://images.unsplash.com/photo-1590362891991-f776e747a588?w=600&q=70&auto=format", posted:3 },
-  { make:"Toyota", model:"Wish", year:2014, price:8200, loc:"Harare", mileage:112000, trans:"Automatic", fuel:"Petrol", clearance:"Cleared", img:"https://images.unsplash.com/photo-1617469767053-d3b523a0b982?w=600&q=70&auto=format", posted:14 },
-  { make:"Mazda", model:"Demio", year:2016, price:5400, loc:"Mutare", mileage:64000, trans:"Automatic", fuel:"Petrol", clearance:"Cleared", img:"https://images.unsplash.com/photo-1541899481282-d53bffe3c35d?w=600&q=70&auto=format", posted:2 },
-  { make:"Nissan", model:"NP200", year:2018, price:11900, loc:"Gweru", mileage:52000, trans:"Manual", fuel:"Petrol", clearance:"Cleared", img:"https://images.unsplash.com/photo-1605559911160-a3d95d213904?w=600&q=70&auto=format", posted:20 },
-  { make:"Toyota", model:"Corolla", year:2013, price:7300, loc:"Harare", mileage:134000, trans:"Manual", fuel:"Petrol", clearance:"Cleared", img:"https://images.unsplash.com/photo-1623869675184-0d92395e0247?w=600&q=70&auto=format", posted:6 },
-  { make:"Honda", model:"CR-V", year:2016, price:15600, loc:"Bulawayo", mileage:88000, trans:"Automatic", fuel:"Petrol", clearance:"Uncleared", img:"https://images.unsplash.com/photo-1568844293986-8d0400bd4745?w=600&q=70&auto=format", posted:1 },
-  { make:"Toyota", model:"Vitz", year:2017, price:6100, loc:"Masvingo", mileage:71000, trans:"Automatic", fuel:"Petrol", clearance:"Cleared", img:"https://images.unsplash.com/photo-1617654112368-307921291f42?w=600&q=70&auto=format", posted:11 },
-  { make:"Mercedes-Benz", model:"C200", year:2015, price:18900, loc:"Harare", mileage:69000, trans:"Automatic", fuel:"Petrol", clearance:"Cleared", img:"https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?w=600&q=70&auto=format", posted:17 },
-  { make:"Isuzu", model:"KB250", year:2012, price:9800, loc:"Gweru", mileage:158000, trans:"Manual", fuel:"Diesel", clearance:"Cleared", img:"https://images.unsplash.com/photo-1571127236794-81c0bbfe1ce3?w=600&q=70&auto=format", posted:25 },
-  { make:"Toyota", model:"Hiace", year:2014, price:16400, loc:"Harare", mileage:145000, trans:"Manual", fuel:"Diesel", clearance:"Uncleared", img:"https://images.unsplash.com/photo-1609520505218-7421df709fa2?w=600&q=70&auto=format", posted:4 },
-  { make:"Suzuki", model:"Swift", year:2018, price:8700, loc:"Mutare", mileage:41000, trans:"Automatic", fuel:"Petrol", clearance:"Cleared", img:"https://images.unsplash.com/photo-1590510696618-8fbfebae2b78?w=600&q=70&auto=format", posted:8 },
+  { id:1, make:"Toyota", model:"Hilux", year:2017, price:22500, loc:"Harare", mileage:98000, trans:"Manual", fuel:"Diesel", clearance:"Cleared", bestFor:["farm","business"], img:"https://images.unsplash.com/photo-1594502184342-2e12f877aa73?w=600&q=70&auto=format", posted:9 },
+  { id:2, make:"Honda", model:"Fit", year:2015, price:6800, loc:"Bulawayo", mileage:76000, trans:"Automatic", fuel:"Petrol", clearance:"Cleared", bestFor:["commute"], img:"https://images.unsplash.com/photo-1590362891991-f776e747a588?w=600&q=70&auto=format", posted:3 },
+  { id:3, make:"Toyota", model:"Wish", year:2014, price:8200, loc:"Harare", mileage:112000, trans:"Automatic", fuel:"Petrol", clearance:"Cleared", bestFor:["family"], img:"https://images.unsplash.com/photo-1617469767053-d3b523a0b982?w=600&q=70&auto=format", posted:14 },
+  { id:4, make:"Mazda", model:"Demio", year:2016, price:5400, loc:"Mutare", mileage:64000, trans:"Automatic", fuel:"Petrol", clearance:"Cleared", bestFor:["commute"], img:"https://images.unsplash.com/photo-1541899481282-d53bffe3c35d?w=600&q=70&auto=format", posted:2 },
+  { id:5, make:"Nissan", model:"NP200", year:2018, price:11900, loc:"Gweru", mileage:52000, trans:"Manual", fuel:"Petrol", clearance:"Cleared", bestFor:["business","farm"], img:"https://images.unsplash.com/photo-1605559911160-a3d95d213904?w=600&q=70&auto=format", posted:20 },
+  { id:6, make:"Toyota", model:"Corolla", year:2013, price:7300, loc:"Harare", mileage:134000, trans:"Manual", fuel:"Petrol", clearance:"Cleared", bestFor:["commute","family"], img:"https://images.unsplash.com/photo-1623869675184-0d92395e0247?w=600&q=70&auto=format", posted:6 },
+  { id:7, make:"Honda", model:"CR-V", year:2016, price:15600, loc:"Bulawayo", mileage:88000, trans:"Automatic", fuel:"Petrol", clearance:"Uncleared", bestFor:["family"], img:"https://images.unsplash.com/photo-1568844293986-8d0400bd4745?w=600&q=70&auto=format", posted:1 },
+  { id:8, make:"Toyota", model:"Vitz", year:2017, price:6100, loc:"Masvingo", mileage:71000, trans:"Automatic", fuel:"Petrol", clearance:"Cleared", bestFor:["commute"], img:"https://images.unsplash.com/photo-1617654112368-307921291f42?w=600&q=70&auto=format", posted:11 },
+  { id:9, make:"Mercedes-Benz", model:"C200", year:2015, price:18900, loc:"Harare", mileage:69000, trans:"Automatic", fuel:"Petrol", clearance:"Cleared", bestFor:["business"], img:"https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?w=600&q=70&auto=format", posted:17 },
+  { id:10, make:"Isuzu", model:"KB250", year:2012, price:9800, loc:"Gweru", mileage:158000, trans:"Manual", fuel:"Diesel", clearance:"Cleared", bestFor:["farm","business"], img:"https://images.unsplash.com/photo-1571127236794-81c0bbfe1ce3?w=600&q=70&auto=format", posted:25 },
+  { id:11, make:"Toyota", model:"Hiace", year:2014, price:16400, loc:"Harare", mileage:145000, trans:"Manual", fuel:"Diesel", clearance:"Uncleared", bestFor:["business","family"], img:"https://images.unsplash.com/photo-1609520505218-7421df709fa2?w=600&q=70&auto=format", posted:4 },
+  { id:12, make:"Suzuki", model:"Swift", year:2018, price:8700, loc:"Mutare", mileage:41000, trans:"Automatic", fuel:"Petrol", clearance:"Cleared", bestFor:["commute"], img:"https://images.unsplash.com/photo-1590510696618-8fbfebae2b78?w=600&q=70&auto=format", posted:8 },
 ];
 
+const USE_LABEL = {
+  commute:"Compact and fuel-efficient for daily driving",
+  family:"Roomy enough for family trips and school runs",
+  business:"Practical choice for business or transport use",
+  farm:"Built for farm roads and off-road work"
+};
+
+const POSTS = [
+  {
+    slug:"importing-a-car-into-zimbabwe",
+    title:"Importing a car into Zimbabwe: the basics",
+    category:"Import Guide",
+    date:"12 Aug 2026",
+    readTime:"5 min read",
+    excerpt:"Most cars on Zimbabwean roads arrive from Japan, the UK or South Africa. Here's how the process actually flows, from auction to your driveway.",
+    body:[
+      "Most used cars sold in Zimbabwe start out at auction in Japan or the UK, or are bought secondhand in South Africa. Once you've settled on a car, the seller or agent arranges shipping — usually by roll-on roll-off carrier to Durban or Beira, then onward by road or rail to Harare or Bulawayo.",
+      "Before you commit, ask for the full paper trail: the export certificate, the bill of lading, and a commercial invoice showing what was actually paid. These documents are what customs will use to value the vehicle when it arrives, so mismatches here cause the most delays later.",
+      "Many buyers work through a clearing agent rather than handling ZIMRA directly. A good agent will quote a flat fee upfront and walk you through duty, port charges and any storage fees if the vehicle sits at the border longer than expected.",
+      "Budget for the unexpected: exchange rate movement between paying the supplier and clearing the car, a few weeks of extra transit time, and minor repairs once the car lands, since long sea journeys are hard on batteries and tyres.",
+      "Duty rates and rules change from time to time, so treat any percentage you hear secondhand with caution — confirm current rates with ZIMRA or your agent before you commit to a purchase."
+    ]
+  },
+  {
+    slug:"clearing-through-zimra",
+    title:"Clearing your car through ZIMRA: what to expect",
+    category:"Import Guide",
+    date:"19 Aug 2026",
+    readTime:"4 min read",
+    excerpt:"Duty, VAT and paperwork — a walkthrough of what happens between your car reaching the border and getting your plates.",
+    body:[
+      "Once your car arrives at the border or port, it's assessed by ZIMRA using the invoice value, the vehicle's age, and its engine size. Older, higher-capacity vehicles generally attract more duty, which is one reason similar-looking cars can have very different landed costs.",
+      "You'll need the original invoice, the bill of lading, proof of the funds used to buy the car, and your own ID or company registration documents. Missing paperwork is the single biggest cause of delay at this stage.",
+      "After duty and VAT are assessed and paid, the car is released and you (or your agent) can arrange transport to your home town. Keep every receipt from this process — you'll need them again for registration and, later, if you ever resell the car.",
+      "If a quoted duty amount feels unusually low for the vehicle, ask questions before paying. Under-declared imports can be flagged well after the fact, and the buyer of a car with disputed clearance status is the one who inherits the problem."
+    ]
+  },
+  {
+    slug:"roadworthy-certificate-guide",
+    title:"Getting your roadworthy certificate (COF) sorted",
+    category:"Roadworthy",
+    date:"25 Aug 2026",
+    readTime:"4 min read",
+    excerpt:"What VID actually checks, and the small things that most often fail a first inspection.",
+    body:[
+      "A Certificate of Fitness from the Vehicle Inspection Department confirms a car is safe to be on the road, and it's required before registration and at renewal. Inspectors work through a fixed checklist rather than a subjective once-over, which means most failures are predictable.",
+      "The most common fail points are lights that don't all work, worn wiper blades, tyres below the legal tread depth, a cracked windscreen in the driver's line of sight, and handbrakes that don't hold on a slope. None of these are expensive to fix, but they're easy to overlook before booking an inspection.",
+      "For imported cars, inspectors also check that the chassis number matches your import documents exactly, so it's worth confirming this yourself before you arrive — a mismatch here takes longer to resolve than a worn tyre.",
+      "Book your slot in advance where possible, bring your import and clearance paperwork along even though it's not strictly part of the mechanical check, and budget a full morning rather than assuming it will be quick."
+    ]
+  },
+  {
+    slug:"financing-a-car-in-zimbabwe",
+    title:"Cash, loan or hire purchase: financing a car in Zimbabwe",
+    category:"Financing",
+    date:"1 Sep 2026",
+    readTime:"5 min read",
+    excerpt:"A plain overview of the three common ways buyers pay for a car locally, and the trade-offs of each.",
+    body:[
+      "Paying cash remains the most common route for used cars in Zimbabwe, and it's usually the cheapest overall since you avoid interest and processing fees entirely. The trade-off is obvious: it ties up a large lump sum at once.",
+      "Bank and microfinance loans let you spread the cost, but approval typically depends on proof of steady income and sometimes collateral. Terms, interest rates and required deposits vary a lot between lenders and change over time, so it's worth getting quotes from more than one institution rather than accepting the first offer.",
+      "Dealer hire-purchase is convenient because it's arranged at the point of sale, but it's worth reading the contract closely — ask specifically about the total cost over the full term, not just the monthly instalment, and what happens if you want to settle early.",
+      "Whichever route you choose, get any financing arrangement in writing before you hand over money or sign for the car, and keep a copy for yourself.",
+      "This is general information, not financial advice — speak to your bank or a licensed lender about what's realistic for your situation."
+    ]
+  },
+  {
+    slug:"manual-vs-automatic-zimbabwe-roads",
+    title:"Manual vs automatic: what suits Zimbabwean roads",
+    category:"Buying Tips",
+    date:"3 Sep 2026",
+    readTime:"3 min read",
+    excerpt:"Both are common on the used market here — the right choice depends more on where you drive than personal preference alone.",
+    body:[
+      "Manual gearboxes are still common on trucks, pickups and older sedans, and tend to be cheaper to maintain since there are fewer parts that can fail expensively. They also give more control on steep or gravel roads, which matters if you're regularly driving outside town.",
+      "Automatics dominate the smaller hatchback segment — cars like the Fit, Vitz and Demio — and are the easier choice for stop-start city commuting in Harare or Bulawayo traffic. Repairs, when needed, can cost more and take longer to source parts for.",
+      "If most of your driving is short urban trips, an automatic is usually the more comfortable daily choice. If you're regularly on farm roads, towing, or driving long rural stretches, a manual — especially in a pickup or SUV — tends to hold up better and is simpler to get fixed almost anywhere."
+    ]
+  }
+];
+
+/* ============ STATE ============ */
+let recentlyViewed = [];
+let compareSelection = [];
+
+/* ============ HELPERS ============ */
+function fmtPrice(n){ return '$' + Number(n).toLocaleString('en-US'); }
+function fmtMileage(n){ return n.toLocaleString('en-US') + ' km'; }
+function carById(id){ return CARS.find(c => c.id === Number(id)); }
+
+function showToast(msg){
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(showToast._timer);
+  showToast._timer = setTimeout(() => t.classList.remove('show'), 2200);
+}
+
+function waLink(car){
+  const text = encodeURIComponent(`Hi, I'm interested in the ${car.year} ${car.make} ${car.model} listed for ${fmtPrice(car.price)} on Farai CarFinder.`);
+  return `https://wa.me/263782067259?text=${text}`;
+}
+
+function shareCar(car){
+  const text = `${car.year} ${car.make} ${car.model} — ${fmtPrice(car.price)} in ${car.loc}. Found it on Farai CarFinder.`;
+  const url = location.href.split('#')[0] + '#/home';
+  if (navigator.share){
+    navigator.share({ title: 'Farai CarFinder', text, url }).catch(() => {});
+  } else if (navigator.clipboard){
+    navigator.clipboard.writeText(`${text} ${url}`).then(() => showToast('Link copied to clipboard'));
+  } else {
+    showToast('Copy this link: ' + url);
+  }
+}
+
+/* ============ ROUTER ============ */
+function route(){
+  const hash = location.hash || '#/home';
+  if (!hash.startsWith('#/')) return; // plain in-page anchors (e.g. #sell, #contact) fall through natively
+  const parts = hash.replace('#/', '').split('/');
+  const page = parts[0] || 'home';
+  const validPages = ['home','match','blog','post'];
+  const active = validPages.includes(page) ? page : 'home';
+
+  document.querySelectorAll('.page').forEach(p => { p.hidden = p.id !== 'page-' + active; });
+  document.querySelectorAll('nav.links a[data-page], .mobile-panel a[data-page]').forEach(a => {
+    a.classList.toggle('active', a.dataset.page === active);
+  });
+  closeMobilePanel();
+
+  if (active === 'post') renderPost(decodeURIComponent(parts[1] || ''));
+  window.scrollTo({ top: 0 });
+}
+window.addEventListener('hashchange', route);
+
+document.getElementById('navSell').addEventListener('click', e => {
+  e.preventDefault();
+  location.hash = '#/home';
+  setTimeout(() => document.getElementById('sell').scrollIntoView({ behavior:'smooth' }), 0);
+});
+document.getElementById('navSellBtn').addEventListener('click', e => {
+  e.preventDefault();
+  location.hash = '#/home';
+  setTimeout(() => document.getElementById('sell').scrollIntoView({ behavior:'smooth' }), 0);
+});
+
+/* ============ MOBILE MENU ============ */
+const menuToggle = document.getElementById('menuToggle');
+const mobilePanel = document.getElementById('mobilePanel');
+menuToggle.addEventListener('click', () => {
+  const open = mobilePanel.classList.toggle('open');
+  menuToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+});
+function closeMobilePanel(){
+  mobilePanel.classList.remove('open');
+  menuToggle.setAttribute('aria-expanded', 'false');
+}
+mobilePanel.querySelectorAll('a').forEach(a => a.addEventListener('click', closeMobilePanel));
+
+/* ============ HOME / LISTINGS ============ */
 const grid = document.getElementById('grid');
 const emptyState = document.getElementById('emptyState');
 const resultCount = document.getElementById('resultCount');
 
-function fmtPrice(n){ return '$' + n.toLocaleString('en-US'); }
-function fmtMileage(n){ return n.toLocaleString('en-US') + ' km'; }
-
-function render(){
+function renderListings(){
   const q = document.getElementById('q').value.trim().toLowerCase();
   const loc = document.getElementById('loc').value;
   const maxPrice = document.getElementById('price').value;
@@ -509,12 +947,13 @@ function render(){
   grid.style.display = 'grid';
   emptyState.style.display = 'none';
 
-  grid.innerHTML = results.map(c => {
-    const waText = encodeURIComponent(`Hi, I'm interested in the ${c.year} ${c.make} ${c.model} listed for ${fmtPrice(c.price)} on Farai CarFinder.`);
-    return `
-    <div class="card">
+  grid.innerHTML = results.map(c => `
+    <div class="card ${compareSelection.includes(c.id) ? 'is-comparing' : ''}" data-id="${c.id}">
       <div class="photo" style="background-image:url('${c.img}')">
         <span class="badge">${c.clearance}</span>
+        <div class="icon-row">
+          <button class="icon-btn share-btn" data-id="${c.id}" title="Share" aria-label="Share this listing">&#8599;</button>
+        </div>
         <span class="price-tag">${fmtPrice(c.price)}</span>
       </div>
       <div class="body">
@@ -526,22 +965,220 @@ function render(){
           <span>${c.fuel}</span>
         </div>
         <div class="card-actions">
-          <a class="btn-outline" href="#top">Details</a>
-          <a class="btn-whatsapp" href="https://wa.me/263771234567?text=${waText}" target="_blank" rel="noopener">WhatsApp</a>
+          <button class="btn-outline details-btn" data-id="${c.id}">Details</button>
+          <a class="btn-whatsapp" href="${waLink(c)}" target="_blank" rel="noopener">WhatsApp</a>
         </div>
+        <label class="compare-check">
+          <input type="checkbox" class="compare-check-input" data-id="${c.id}" ${compareSelection.includes(c.id) ? 'checked' : ''}>
+          Add to compare
+        </label>
       </div>
-    </div>`;
-  }).join('');
+    </div>`).join('');
+
+  grid.querySelectorAll('.details-btn').forEach(btn => btn.addEventListener('click', () => openDetail(btn.dataset.id)));
+  grid.querySelectorAll('.share-btn').forEach(btn => btn.addEventListener('click', () => shareCar(carById(btn.dataset.id))));
+  grid.querySelectorAll('.compare-check-input').forEach(cb => cb.addEventListener('change', () => toggleCompare(Number(cb.dataset.id), cb.checked)));
 }
 
-document.getElementById('searchBtn').addEventListener('click', render);
-document.getElementById('sort').addEventListener('change', render);
-document.getElementById('loc').addEventListener('change', render);
-document.getElementById('price').addEventListener('change', render);
-document.getElementById('trans').addEventListener('change', render);
-document.getElementById('q').addEventListener('keydown', e => { if (e.key === 'Enter') render(); });
+['searchBtn'].forEach(id => document.getElementById(id).addEventListener('click', renderListings));
+['sort','loc','price','trans'].forEach(id => document.getElementById(id).addEventListener('change', renderListings));
+document.getElementById('q').addEventListener('keydown', e => { if (e.key === 'Enter') renderListings(); });
 
-render();
+/* ============ RECENTLY VIEWED ============ */
+function trackRecentlyViewed(car){
+  recentlyViewed = recentlyViewed.filter(c => c.id !== car.id);
+  recentlyViewed.unshift(car);
+  if (recentlyViewed.length > 6) recentlyViewed = recentlyViewed.slice(0, 6);
+  renderRecentStrip();
+}
+function renderRecentStrip(){
+  const strip = document.getElementById('recentStrip');
+  const row = document.getElementById('recentRow');
+  if (recentlyViewed.length === 0){ strip.style.display = 'none'; return; }
+  strip.style.display = 'block';
+  row.innerHTML = recentlyViewed.map(c => `
+    <div class="recent-item">
+      <div class="thumb" style="background-image:url('${c.img}')"></div>
+      <div class="info"><b>${c.year} ${c.make} ${c.model}</b><span>${fmtPrice(c.price)}</span></div>
+    </div>`).join('');
+}
+
+/* ============ DETAIL MODAL ============ */
+const detailOverlay = document.getElementById('detailOverlay');
+function openDetail(id){
+  const c = carById(id);
+  if (!c) return;
+  trackRecentlyViewed(c);
+  document.getElementById('detailModal').innerHTML = `
+    <button class="modal-close" id="detailCloseBtn" aria-label="Close">&times;</button>
+    <div class="photo" style="background-image:url('${c.img}')"></div>
+    <h2>${c.year} ${c.make} ${c.model}</h2>
+    <div class="price-line">${fmtPrice(c.price)}</div>
+    <div class="modal-specs">
+      <div>Location <b>${c.loc}</b></div>
+      <div>Mileage <b>${fmtMileage(c.mileage)}</b></div>
+      <div>Transmission <b>${c.trans}</b></div>
+      <div>Fuel <b>${c.fuel}</b></div>
+      <div>Clearance <b>${c.clearance}</b></div>
+      <div>Listed <b>${c.posted} days ago</b></div>
+    </div>
+    <div class="card-actions">
+      <button class="btn-outline" id="detailShareBtn">Share</button>
+      <a class="btn-whatsapp" href="${waLink(c)}" target="_blank" rel="noopener">Message seller</a>
+    </div>`;
+  document.getElementById('detailCloseBtn').addEventListener('click', closeDetail);
+  document.getElementById('detailShareBtn').addEventListener('click', () => shareCar(c));
+  detailOverlay.classList.add('open');
+}
+function closeDetail(){ detailOverlay.classList.remove('open'); }
+detailOverlay.addEventListener('click', e => { if (e.target === detailOverlay) closeDetail(); });
+
+/* ============ COMPARE ============ */
+const compareBar = document.getElementById('compareBar');
+const compareOverlay = document.getElementById('compareOverlay');
+
+function toggleCompare(id, checked){
+  if (checked){
+    if (compareSelection.length >= 2){
+      showToast('You can compare up to 2 cars at a time');
+      renderListings();
+      return;
+    }
+    compareSelection.push(id);
+  } else {
+    compareSelection = compareSelection.filter(x => x !== id);
+  }
+  renderListings();
+  renderCompareBar();
+}
+function renderCompareBar(){
+  const items = document.getElementById('compareItems');
+  if (compareSelection.length === 0){ compareBar.classList.remove('open'); return; }
+  compareBar.classList.add('open');
+  items.innerHTML = compareSelection.map(id => {
+    const c = carById(id);
+    return `<span><b>${c.year} ${c.make} ${c.model}</b></span>`;
+  }).join('<span>+</span>');
+  document.getElementById('compareOpenBtn').disabled = compareSelection.length < 2;
+}
+document.getElementById('compareClear').addEventListener('click', () => {
+  compareSelection = [];
+  renderListings();
+  renderCompareBar();
+});
+document.getElementById('compareOpenBtn').addEventListener('click', () => {
+  if (compareSelection.length < 2){ showToast('Pick a second car to compare'); return; }
+  const [a, b] = compareSelection.map(carById);
+  const rows = [
+    ['Price', fmtPrice(a.price), fmtPrice(b.price)],
+    ['Year', a.year, b.year],
+    ['Location', a.loc, b.loc],
+    ['Mileage', fmtMileage(a.mileage), fmtMileage(b.mileage)],
+    ['Transmission', a.trans, b.trans],
+    ['Fuel', a.fuel, b.fuel],
+    ['Clearance', a.clearance, b.clearance],
+  ];
+  document.getElementById('compareModal').innerHTML = `
+    <button class="modal-close" id="compareCloseBtn" aria-label="Close">&times;</button>
+    <h2>Comparing 2 cars</h2>
+    <table class="compare-table">
+      <tr><th></th><th>${a.year} ${a.make} ${a.model}</th><th>${b.year} ${b.make} ${b.model}</th></tr>
+      ${rows.map(r => `<tr><td>${r[0]}</td><td>${r[1]}</td><td>${r[2]}</td></tr>`).join('')}
+    </table>`;
+  document.getElementById('compareCloseBtn').addEventListener('click', () => compareOverlay.classList.remove('open'));
+  compareOverlay.classList.add('open');
+});
+compareOverlay.addEventListener('click', e => { if (e.target === compareOverlay) compareOverlay.classList.remove('open'); });
+
+/* ============ AI MATCH ============ */
+function computeMatches(budget, useCase, city){
+  return CARS.map(car => {
+    let score = 0;
+    const reasons = [];
+
+    if (budget){
+      if (car.price <= Number(budget)){
+        score += 3;
+        reasons.push(`Fits your budget of ${fmtPrice(budget)}`);
+      } else {
+        score -= 4;
+      }
+    }
+    if (useCase && car.bestFor.includes(useCase)){
+      score += 4;
+      reasons.push(USE_LABEL[useCase]);
+    }
+    if (city && car.loc === city){
+      score += 2;
+      reasons.push(`Based in ${city}, so it's easy to view in person`);
+    }
+    score += (car.year - 2010) * 0.15;
+    score -= car.mileage / 100000;
+
+    if (reasons.length === 0) reasons.push('A solid all-round option from current listings');
+
+    return { car, score, reasons };
+  }).sort((a,b) => b.score - a.score).slice(0, 3);
+}
+
+document.getElementById('matchBtn').addEventListener('click', () => {
+  const budget = document.getElementById('mBudget').value;
+  const useCase = document.getElementById('mUse').value;
+  const city = document.getElementById('mCity').value;
+  const matches = computeMatches(budget, useCase, city);
+  const results = document.getElementById('matchResults');
+
+  results.innerHTML = matches.map((m, i) => `
+    <div class="match-card">
+      <div class="photo" style="background-image:url('${m.car.img}')"></div>
+      <div>
+        <div class="match-rank">Match ${i + 1}</div>
+        <h3>${m.car.year} ${m.car.make} ${m.car.model}</h3>
+        <div class="price-line">${fmtPrice(m.car.price)} · ${m.car.loc}</div>
+        <ul class="match-reasons">${m.reasons.map(r => `<li>${r}</li>`).join('')}</ul>
+        <div class="card-actions">
+          <button class="btn-outline match-details-btn" data-id="${m.car.id}">Details</button>
+          <a class="btn-whatsapp" href="${waLink(m.car)}" target="_blank" rel="noopener">WhatsApp</a>
+        </div>
+      </div>
+    </div>`).join('');
+
+  results.querySelectorAll('.match-details-btn').forEach(btn => btn.addEventListener('click', () => openDetail(btn.dataset.id)));
+  results.scrollIntoView({ behavior:'smooth', block:'start' });
+});
+
+/* ============ BLOG ============ */
+function renderBlogList(){
+  document.getElementById('blogGrid').innerHTML = POSTS.map(p => `
+    <div class="blog-card">
+      <span class="blog-tag">${p.category}</span>
+      <h3>${p.title}</h3>
+      <p>${p.excerpt}</p>
+      <div class="blog-meta"><span>${p.date}</span><span>${p.readTime}</span></div>
+      <a class="read-link" href="#/post/${p.slug}">Read guide →</a>
+    </div>`).join('');
+}
+
+function renderPost(slug){
+  const post = POSTS.find(p => p.slug === slug) || POSTS[0];
+  const related = POSTS.filter(p => p.slug !== post.slug).slice(0, 3);
+  document.getElementById('postContent').innerHTML = `
+    <a class="post-back" href="#/blog">← Back to blog</a>
+    <span class="blog-tag">${post.category}</span>
+    <h1>${post.title}</h1>
+    <div class="post-meta">${post.date} · ${post.readTime}</div>
+    <div class="post-body">${post.body.map(p => `<p>${p}</p>`).join('')}</div>
+    <div class="post-disclaimer">This guide is general information based on how the process typically works, not legal or financial advice. Rules and rates change — confirm current requirements with ZIMRA, VID or your agent before making decisions.</div>
+    <div class="related-posts">
+      <h4>More guides</h4>
+      ${related.map(p => `<a href="#/post/${p.slug}">${p.title}</a>`).join('')}
+    </div>`;
+}
+
+/* ============ INIT ============ */
+renderListings();
+renderBlogList();
+route();
 </script>
 
 </body>
